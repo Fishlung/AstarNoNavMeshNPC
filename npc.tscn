@@ -1,6 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://djj2emjqatwno"]
+[gd_scene format=3 uid="uid://dfs7lkjhg16cl"]
 
-[ext_resource type="Script" uid="uid://6naeucnmsfwj" path="res://npc.gd" id="1_ideak"]
+[ext_resource type="Script" uid="uid://c26qiy0ww7452" path="res://entities/free-roamers/npc.gd" id="1_qgfp2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v7lw1"]
 
@@ -10,7 +10,6 @@ albedo_texture_msdf = true
 metallic = 1.0
 roughness = 0.18
 proximity_fade_distance = 0.01
-distance_fade_mode = 2
 distance_fade_min_distance = 50.0
 distance_fade_max_distance = 20.0
 
@@ -34,107 +33,7 @@ distance_fade_mode = 2
 distance_fade_min_distance = 50.0
 distance_fade_max_distance = 20.0
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_ideak"]
-radius = 16.0
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_ideak"]
-viewport_path = NodePath("Health3D/SubViewport")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kh24r"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ul7y6"]
-bg_color = Color(0, 0, 1, 1)
-
-[sub_resource type="Animation" id="Animation_kh24r"]
-resource_name = "in"
-length = 0.5
-step = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HPBarSprite:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label3D:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Label3D:outline_modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_bc6q4"]
-resource_name = "out"
-length = 0.5
-step = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HPBarSprite:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label3D:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Label3D:outline_modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ul7y6"]
-_data = {
-&"in": SubResource("Animation_kh24r"),
-&"out": SubResource("Animation_bc6q4")
-}
-
-[node name="NPC" type="CharacterBody3D" unique_id=1374715217 node_paths=PackedStringArray("ground_ray", "front_ray", "left_ray", "right_ray") groups=["Enemy"]]
+[node name="NPC" type="CharacterBody3D" unique_id=1374715217 node_paths=PackedStringArray("front_ray", "left_ray", "right_ray", "line_of_sight") groups=["Enemy"]]
 editor_description = "extends CharacterBody3D
 
 # ================== BEÁLLÍTÁSOK ==================
@@ -304,11 +203,11 @@ func _smooth_look(dir: Vector3, delta: float):
 func set_target(node: Node3D):
 	target = node
 "
-script = ExtResource("1_ideak")
-ground_ray = NodePath("GroundRay")
+script = ExtResource("1_qgfp2")
 front_ray = NodePath("FrontRay")
 left_ray = NodePath("LeftRay")
 right_ray = NodePath("RightRay")
+line_of_sight = NodePath("LineOfSight")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1558405231]
 shape = SubResource("CapsuleShape3D_v7lw1")
@@ -346,9 +245,6 @@ distance_fade_begin = 20.0
 distance_fade_shadow = 20.0
 distance_fade_length = 20.0
 
-[node name="GroundRay" type="RayCast3D" parent="." unique_id=1591270369]
-target_position = Vector3(0, -2, 0)
-
 [node name="FrontRay" type="RayCast3D" parent="." unique_id=984044459]
 target_position = Vector3(0, 0, 1.2)
 
@@ -358,64 +254,7 @@ target_position = Vector3(-0.6, 0, 1)
 [node name="RightRay" type="RayCast3D" parent="." unique_id=1379540523]
 target_position = Vector3(0.6, 0, 1)
 
-[node name="Areas" type="Node3D" parent="." unique_id=2038067804]
-
-[node name="HpLabelFadeArea" type="Area3D" parent="Areas" unique_id=1915750471]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas/HpLabelFadeArea" unique_id=1312340699]
-shape = SubResource("SphereShape3D_ideak")
-
-[node name="Health3D" type="Node3D" parent="." unique_id=1817086558]
-
-[node name="HPBarSprite" type="Sprite3D" parent="Health3D" unique_id=1754155526]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2222195, 0)
-modulate = Color(1, 1, 1, 0)
-billboard = 2
-texture = SubResource("ViewportTexture_ideak")
-
-[node name="Label3D" type="Label3D" parent="Health3D" unique_id=1096108014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6064031, 0)
-billboard = 2
-modulate = Color(1, 1, 1, 0)
-outline_modulate = Color(0, 0, 0, 0)
-text = "Atlas"
-font_size = 67
-
-[node name="SubViewport" type="SubViewport" parent="Health3D" unique_id=994184705]
-size = Vector2i(150, 27)
-
-[node name="HPControl" type="Control" parent="Health3D/SubViewport" unique_id=1617437627]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 150.0
-offset_bottom = 150.0
-
-[node name="HPBar" type="ProgressBar" parent="Health3D/SubViewport/HPControl" unique_id=173327603]
-custom_minimum_size = Vector2(150, 20)
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 27.0
-theme_override_styles/background = SubResource("StyleBoxFlat_kh24r")
-theme_override_styles/fill = SubResource("StyleBoxFlat_ul7y6")
-value = 50.0
-show_percentage = false
-
-[node name="Label" type="Label" parent="Health3D/SubViewport/HPControl" unique_id=1275873395]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 0
-offset_top = -0.505
-offset_right = 150.0
-offset_bottom = 27.495
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 20
-text = "10/10"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Health3D" unique_id=1035762416]
-libraries = {
-&"": SubResource("AnimationLibrary_ul7y6")
-}
-
-[connection signal="body_entered" from="Areas/HpLabelFadeArea" to="." method="_on_hp_label_fade_area_body_entered"]
-[connection signal="body_exited" from="Areas/HpLabelFadeArea" to="." method="_on_hp_label_fade_area_body_exited"]
+[node name="LineOfSight" type="RayCast3D" parent="." unique_id=850640066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5148893, 0.38062352)
+target_position = Vector3(0, 0, -8)
+collision_mask = 3
