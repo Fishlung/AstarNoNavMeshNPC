@@ -1,48 +1,22 @@
-NPC Movement System for Godot without NavMesh ------------------
+# Overview
+An adaptation of tib69's NoNavmeshNPC. The changes made were originally for a personal project, but unfortunately this NPC script no longer suits my needs. I decided I wanted to publish my changes anyway, so that anyone else who's interested in making a free-roaming NPC without using Navigation Meshes can perhaps learn from my mistakes. 
 
-This script provides a complete NPC movement system for 3D games in Godot. It allows an NPC to idle, wander, and chase a player with smooth movement, dynamic speed, and obstacle avoidance. The system relies on physics and raycasts instead of navigation meshes, making it lightweight and efficient.
+The NPC uses AStar for the bulk of its navigation, breaking away from the AStar map and directly chasing its target when it sees the player. If visual contact is lost, it attempts to return to the AStar map to continue following. While using AStar helps tremendously in helping it navigate around obstacles, the NPC still occasionally gets stuck against the wall. While I believe there are slight improvements from the original, this is still unfortunately something I haven't been able to fix. The NPC works best if it breaks away from the AStar map for only brief periods of time, and only in open areas with few obstacles to get stuck on. 
 
-Features ------------------
+# Setup
+Assign the NPC script to a CharacterBody3D node. Add the following nodes for full functionality:
+- A front Raycast3D to detect obstaces
+- A left and right Raycast3D for obstacle avoidance
+- A line of sight Raycast3D to detect players
 
-Health management with a visible 3D health bar
-Wandering with random directions and configurable timers
-Player detection and chase behavior with follow distance and maximum chase range
-Strafe movement during chase for natural motion
-Smooth rotation toward movement direction
-Obstacle detection and avoidance using raycasts
-Gravity application for realistic vertical movement
-Configurable movement speeds, acceleration, deceleration, and turn speed
+Optionally, edit the exported variables in the inspector to control speed, follow distance, acceleration, and other parameters. 
 
-Setup ------------------
+In another node, create your AStar3D map. Assign it to the NPC's astar_map exported variable. As long as the AStar map is properly configured, the NPC should now be able to navigate to the nearest point to its target.
 
-Assign the NPC script to a CharacterBody3D node.
-Add the following child nodes for proper functionality
+# Final Notes
+This version of the NPC is far more barebones than the repository it was forked from, as I stripped away a lot of the original functionality the original NPC had to better suit my needs. I highly recommend checking out the original project and figure out for yourself what suits your own needs. Additionally, I did my best to remove any parts I've added that aren't relevant to navigation, but there might be some left over that I wasn't able to catch. You can probably just ignore those. Or submit a pull request if it bothers you that much. I don't care. I'm not working on this anymore. 
 
-A front RayCast3D to detect obstacles
+Feel free to use this in your own projects, and adapt this in any way you'd like. On a comment under their [original post][post_link] on Reddit, the original creator wrote *"I share my knowledge and this npc system with anyone, I wanna make the godot community better with this way."* [(Source)][comment_link]. I extend the same sentiment, and I hope someone is able to find use out of this the same way I was able to.
 
-Left and right RayCast3D for obstacle avoidance
-
-A ground RayCast3D to prevent falling off edges
-
-Optional Health3D node with a SubViewport containing an HPBar and Label
-
-Set the exported variables in the inspector to adjust movement speed, detection ranges, gravity, and chase parameters.
-
-How it works ------------------
-
-The NPC has three states: idle, wander, and chase. In idle state, the NPC stops moving and checks for player proximity. In wander state, the NPC moves in a random direction for a random duration while checking for obstacles and edges. In chase state, the NPC moves toward the player with adjustable speed, strafing behavior, and collision avoidance.
-
-Health can be reduced using the _get_damage(damage) function. If health reaches zero, the NPC is removed from the scene.
-
-The NPC rotation is smoothed using _smooth_look, which interpolates the rotation toward the target direction based on movement speed.
-
-Obstacle avoidance checks the left and right rays and adjusts movement to prevent collisions.
-
-The _physics_process loop handles movement and state updates, applying gravity, and controlling speed with acceleration and deceleration.
-
-Usage ------------------
-
-Call set_target(node) to assign the player or any other object as the chase target.
-Use the exposed variables to fine-tune behavior such as wandering time, chase speed, and detection range.
-
-This system can be used for enemies, allies, or NPCs that need dynamic movement without the overhead of navigation meshes.
+[post_link]: https://www.reddit.com/r/godot/comments/1puoqgd/godot_terrain_npc_ai_without_navmesh/
+[comment_link]: https://www.reddit.com/r/godot/comments/1puoqgd/comment/nvq3eq1/
