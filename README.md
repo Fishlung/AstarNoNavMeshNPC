@@ -1,5 +1,5 @@
 # Overview
-An adaptation of tib69's NoNavmeshNPC. The changes made were originally for a personal project, but unfortunately this NPC script no longer suits my needs. I decided I wanted to publish my changes anyway, so that anyone else who's interested in making a free-roaming NPC without using Navigation Meshes can perhaps learn from my mistakes. 
+An adaptation of tib69's [NoNavMeshNPC][no_navmesh_link]. The changes made were originally for a personal project, but unfortunately this NPC script no longer suits my needs. I decided I wanted to publish my changes anyway, so that anyone else who's interested in making a free-roaming NPC without using Navigation Meshes can perhaps learn from my mistakes. 
 
 The NPC uses AStar for the bulk of its navigation, breaking away from the AStar map and directly chasing its target when it sees the player. If visual contact is lost, it attempts to return to the AStar map to continue following. While using AStar helps tremendously in helping it navigate around obstacles, the NPC still occasionally gets stuck against the wall. While I believe there are slight improvements from the original, this is still unfortunately something I haven't been able to fix. The NPC works best if it breaks away from the AStar map for only brief periods of time, and only in open areas with few obstacles to get stuck on. 
 
@@ -18,5 +18,6 @@ This version of the NPC is far more barebones than the repository it was forked 
 
 Feel free to use this in your own projects, and adapt this in any way you'd like. On a comment under their [original post][post_link] on Reddit, the original creator wrote *"I share my knowledge and this npc system with anyone, I wanna make the godot community better with this way."* [(Source)][comment_link]. I extend the same sentiment, and I hope someone is able to find use out of this the same way I was able to.
 
+[no_navmesh_link]: https://github.com/tib69/NoNavMeshNPC
 [post_link]: https://www.reddit.com/r/godot/comments/1puoqgd/godot_terrain_npc_ai_without_navmesh/
 [comment_link]: https://www.reddit.com/r/godot/comments/1puoqgd/comment/nvq3eq1/
